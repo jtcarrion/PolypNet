@@ -38,6 +38,10 @@ def save_output():
     filepath = asksaveasfilename
     return()
 
+plc = Image.open("blank.png") #loaded in white background
+plc = plc.resize((300,250))
+new_plc = ImageTk.PhotoImage(plc)
+
 l1 = tk.Label(my_w, text='Upload Colonoscopy Image', width=30, font=my_font1)
 l1.grid(row=1,column=1)
 l2 = tk.Label(my_w, text="Process Image", width=30, font=my_font1)
@@ -50,6 +54,11 @@ b1.grid(row=2,column=1)
 b2 = tk.Button(my_w, text="Process Image", width=20)
 b2.grid(row=2,column=2)
 b3 = tk.Button(my_w, text="Save Image", width=20)
-b3.grid(row=3,column=2)
+b3.grid(row=4,column=2)
+
+label = Label(my_w, image = new_plc) # "placeholders" for images 
+label.grid(row=3,column=1)
+two_label = Label(my_w, image= new_plc)
+two_label.grid(row=3,column=2)
 
 my_w.mainloop()
