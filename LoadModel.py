@@ -19,6 +19,7 @@ os.chdir('C:/Users/16023/Desktop/BMI_540_Project')
 
 img = ['./OG_test/55.tif', './OG_test/37.tif']
 mask = ['./GT_test/55.tif', './GT_test/37.tif']
+polyp_mask_example = './polyp.png'
 
 data = pd.DataFrame(columns=[['img_path'], ['mask_path']])
 data['img_path'] = img
@@ -31,14 +32,12 @@ class_names = ['background', 'polyp']
 class_rgb_values = [[0, 0, 0], [255, 255, 255]]
 
 
-def mask_up(x, y):
-    im1 = Image.open(x)
-    im2 = Image.open(y)
-
+def mask_up(x):
+    # im1 = Image.open(x)
+    im1 = Image.open(polyp_mask_example)
     m = Image.new("L", im1.size, 128)
-    im = Image.composite(im1, im2, m)
-    return im
-
+    im3 = Image.composite(im1, im1, m)
+    return im1
 
 def get_preprocessing(preprocessing_fn=None):
     _transform = []
@@ -124,15 +123,16 @@ preprocessing_fn = smp.encoders.get_preprocessing_fn(ENCODER, ENCODER_WEIGHTS)
 # load best saved model checkpoint from the current run
 if os.path.exists('./UNet.pth'):
     model = torch.load('./UNet.pth', map_location=torch.device('cpu'))
-    print('Loaded UNet model from this run.')
+    print('Loaded UNet model.')
 
+
+'''
 x = r'./OG_test/55_test.png'
 y = r'./GT_test/55_test.png'
 z = mask_up(x,y)
 z.show()
 
 
-'''
 im1 = Image.open(r'./OG_test/55_test.png')
 im2 = Image.open(r'./GT_test/55_test.png')
 
