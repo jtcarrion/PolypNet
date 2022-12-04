@@ -4,7 +4,6 @@ from tkinter.filedialog import askopenfilename, asksaveasfilename
 import LoadModel as lm
 from PIL import Image, ImageTk
 
-global IMAGE
 IMAGE = ''
 
 my_w = tk.Tk()
@@ -13,46 +12,31 @@ my_w.geometry("850x450")  # Size of the window
 my_w.title('PolypNet')
 my_font1=('times', 18, 'bold')
 blank_img = "C:/Users/16023/Desktop/BMI_540_Project/blank.png"
-ans_img = "C:/Users/16023/Desktop/BMI_540_Project/polyp.png"
+
 
 def upload_file():
     global img
     f_types = [('png Files', '*.png')]
     filename = askopenfilename(filetypes=f_types)
     IMAGE = filename
-    img= Image.open(filename)
-    #img_resized= img.resize((350,250))
+    img = Image.open(filename)
     img = ImageTk.PhotoImage(img)
     b4 = tk.Button(my_w, image=img)
     b4.grid(row=3, column=1, pady=(15))
 
 
-'''
-def open_file():
-    global img
-    f_types = [('TIFF Files', '*.tif')]
-    filename = askopenfilename(filetypes=f_types)
-    dataset = gdal.Open(filename, gdal.GA_ReadOnly)
-    array = []
-    for x in range(1, dataset.RasterCount + 1):
-        band = dataset.GetRasterBand(x)
-        array = band.ReadAsArray()
-    b4 = tk.Button(my_w, image=array)
-    b4.grid(row=3, column=1)
-'''
-
 def process_image():
     global img2
-    global i
-    i = lm.mask_up(IMAGE)
-    img2 = ImageTk.PhotoImage(i)
+    global output
+    output = lm.mask_up(IMAGE)
+    img2 = ImageTk.PhotoImage(output)
     out = tk.Button(my_w, image=img2)
     out.grid(row=3, column=2)
     return()
 
 
 def save_output():
-    i.save("55_mask.png")
+    output.save("PolypNet_Output.png")
     tk.messagebox.showinfo(title=None, message='Image Saved!')
     return()
 
